@@ -1,3 +1,4 @@
+![Logo](https://i.ibb.co/DVGMbZY/lure-logo.png)
 # lure-the-game
 
 It's a nice day for fishing.
