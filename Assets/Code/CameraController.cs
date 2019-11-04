@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    #region Class Variables
     public Transform[] viewPoints;
     public float transformSpeed = 1.0f;
     private Transform currentView;
     private int currentIndex = 0;
+    #endregion
 
-    // Start is called before the first frame update
     void Start()
     {
         currentView = viewPoints[currentIndex];
@@ -19,30 +20,35 @@ public class CameraController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
-            if(currentIndex == 0)
-            {
-                currentIndex = 1;
-            }else if(currentIndex == 1)
+            //increases the index of where the current camera should be pointing to
+            currentIndex += 1;
+
+            //resets the camera to the first view if the end of the array is reached 
+            if(currentIndex >= viewPoints.Length)
             {
                 currentIndex = 0;
             }
             currentView = viewPoints[currentIndex];
         }
-        
     }
 
     void LateUpdate()
     {
-        //Lerp position
+        //Linear interpolate position between the current position of the camera and the views current position
         transform.position = Vector3.Lerp(transform.position, currentView.position, Time.deltaTime * transformSpeed);
 
+
+        //Linear interpolation for rotating the camera between the camera's current angle and the angle of the current viewpoint
+        Vector3 eulerAnglesOfCam = transform.rotation.eulerAngles;
+        Vector3 eulerAnglesOfView = currentView.transform.rotation.eulerAngles;
+        float speed = Time.deltaTime * transformSpeed;
+
         Vector3 currentAngle = new Vector3(
-            Mathf.LerpAngle(transform.rotation.eulerAngles.x, currentView.transform.rotation.eulerAngles.x, Time.deltaTime * transformSpeed),
-            Mathf.LerpAngle(transform.rotation.eulerAngles.y, currentView.transform.rotation.eulerAngles.y, Time.deltaTime * transformSpeed),
-            Mathf.LerpAngle(transform.rotation.eulerAngles.z, currentView.transform.rotation.eulerAngles.z, Time.deltaTime * transformSpeed)
+            Mathf.LerpAngle(eulerAnglesOfCam.x, eulerAnglesOfView.x, speed),
+            Mathf.LerpAngle(eulerAnglesOfCam.y, eulerAnglesOfView.y, speed),
+            Mathf.LerpAngle(eulerAnglesOfCam.z, eulerAnglesOfView.z, speed)
         );
 
         transform.eulerAngles = currentAngle;
-        
     }
 }
