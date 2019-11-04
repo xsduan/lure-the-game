@@ -4,57 +4,34 @@ using UnityEngine;
 
 public class BoatMovement : MonoBehaviour
 {
-    public Camera boatCam;
-    public Camera personCam;
     public GameObject person;
+    public Transform firstPerson;
+    public Transform thirdPerson;
 
     public float turnSpeed;
     public float accelerateSpeed;
+    public float rotateCameraHorizontalSpeed;
+    public float rotateCameraVerticalSpeed;
 
     private Rigidbody rb;
 
     private bool isFishing = false;
-    private float lastFPress = 0.0f;
+    private float yaw = -90.0f;
+    private float pitch = 0.0f;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-
-        boatCam.enabled = true;
-        personCam.enabled = false;
     } //Start()
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKey(KeyCode.F))
+        if(Input.GetKeyDown(KeyCode.F))
         {
-            Debug.Log("Pressed f at " + lastFPress + " Current game time is: " + Time.time);
-
-            //Makes sure the user can't spam press the f key to change camera rapidly
-            if (Time.time - lastFPress > 1)
-            {
-                //changes "game mode" and updates time
-                isFishing = !isFishing;
-                lastFPress = Time.time;
-
-                //sets the cameras to the opposite of what they were set to
-                boatCam.enabled = !boatCam.enabled;
-                personCam.enabled = !personCam.enabled;
-
-                //activates and deactivates cameras accordingly
-                if (boatCam.enabled)
-                {
-                    boatCam.gameObject.SetActive(true);
-                    personCam.gameObject.SetActive(false);
-                }
-                else
-                {
-                    boatCam.gameObject.SetActive(false);
-                    personCam.gameObject.SetActive(true);
-                }
-            }
+            isFishing = !isFishing;
+            pitch = 0.0f;
         }
 
         if (!isFishing)
@@ -92,6 +69,17 @@ public class BoatMovement : MonoBehaviour
         else
         {
             //Fishing mode
+
+            yaw += rotateCameraHorizontalSpeed * Input.GetAxis("Horizontal");
+            
+            float pitchDelta = rotateCameraVerticalSpeed * Input.GetAxis("Vertical") ;
+            if(Mathf.Abs(pitch - pitchDelta) > 20)
+            {
+                pitchDelta = 0.0f;
+            }
+            pitch -= pitchDelta;
+
+            firstPerson.transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
         }
     } //Update()
 }
