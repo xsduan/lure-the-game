@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,6 +14,10 @@ public class BoatMovement : MonoBehaviour
     public float accelerateSpeed;
     public float rotateCameraHorizontalSpeed;
     public float rotateCameraVerticalSpeed;
+
+    public GameObject fishingLineStartingPoint; //the tip of the rod
+    public GameObject fishingLinePrefab;
+    public GameObject fishingLine;
 
     private Rigidbody rb;
 
@@ -32,6 +37,8 @@ public class BoatMovement : MonoBehaviour
         {
             isFishing = !isFishing;
             pitch = 0.0f;
+            yaw = -90.0f;
+            Cursor.lockState = isFishing ? CursorLockMode.Locked : CursorLockMode.None; //If transitioning to fishing mode, lock the cursor. Unlock the cursor otherwise.
         }
 
         if (!isFishing)
@@ -43,6 +50,11 @@ public class BoatMovement : MonoBehaviour
         {
             //Fishing mode
             RotateHeadInFishMode();
+            if(Input.GetMouseButtonDown(0))
+            {
+                ControlFishingRod();
+            }
+            
         }
     }
 
@@ -79,11 +91,11 @@ public class BoatMovement : MonoBehaviour
 
     private void RotateHeadInFishMode()
     {
-        //change rotation about the y axis in unity
-        yaw += rotateCameraHorizontalSpeed * Input.GetAxis("Horizontal");
+        //change rotation about the y axis
+        yaw += rotateCameraHorizontalSpeed * Input.GetAxis("Mouse X");
 
         //change pitch of camera to look up or down
-        float pitchDelta = rotateCameraVerticalSpeed * Input.GetAxis("Vertical");
+        float pitchDelta = rotateCameraVerticalSpeed * Input.GetAxis("Mouse Y");
         if (Mathf.Abs(pitch - pitchDelta) > 20) //limits the camera to only look 20 degrees up or 20 degrees down from the horizon
         {
             pitchDelta = 0.0f;
@@ -91,5 +103,27 @@ public class BoatMovement : MonoBehaviour
         pitch -= pitchDelta;
 
         firstPerson.transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+    }
+
+
+    //todo: improve fishing controls
+    private void ControlFishingRod()
+    {
+        if(fishingLine == null);
+        {
+            fishingLine = Instantiate(fishingLinePrefab);
+            fishingLine.transform.position = fishingLineStartingPoint.transform.position;
+            Rope line = fishingLine.GetComponent<Rope>();
+            line.startObject = fishingLineStartingPoint.transform;
+
+            if(line.endObject.GetComponent<Rigidbody>())
+            {
+                line.endObject.GetComponent<Rigidbody>().AddForce((transform.forward + transform.up) * 40f);
+            }
+            else
+            {
+                throw new NullReferenceException("Fishing line hook does not have rigidbody attached");
+            }
+        }
     }
 }
