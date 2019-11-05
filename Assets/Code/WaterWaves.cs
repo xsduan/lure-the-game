@@ -35,6 +35,8 @@ public class WaterWaves : MonoBehaviour
             vertices[i].y = Mathf.PingPong(Time.time*speed, initialHeights[i]);
         }
 
+        //set heightmap
+        mesh.vertices = vertices;
         //set texture for lake
         gameObject.GetComponent<MeshRenderer>().material.mainTexture = BuildWaterTexture(vertices, resolution, magnitude);
     }
