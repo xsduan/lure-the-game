@@ -10,6 +10,6 @@ public class sanityValue : MonoBehaviour
     private void Start()
     {
         sanitySlider = GetComponent<Slider>();
-        sanitySlider.value = sanity;
+        sanitySlider.value = sanity;// sets slider value to pre-determined amount
     }
 }

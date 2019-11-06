@@ -15,19 +15,19 @@ public class decreaseOverTime : MonoBehaviour
 
     private void Start()
     {
-        health = maxHealth;
-        readjustTime = decreaseTime;
+        health = maxHealth;// set health to maximum
+        readjustTime = decreaseTime;// set readjust time
         healthBar = GetComponent<Slider>();
-        healthBar.maxValue = maxHealth;
-        healthBar.value = health;
+        healthBar.maxValue = maxHealth;// sets max value of health bar
+        healthBar.value = health;// sets heath bar to your health
     }
     private void Update()
     {
-        timeElapsed += Time.deltaTime;
-        if(Convert.ToInt32(timeElapsed) == decreaseTime)
+        timeElapsed += Time.deltaTime;// update the time elapsed
+        if(Convert.ToInt32(timeElapsed) == decreaseTime)// if elapsed time matches the decrease time period
         {
-            decreaseTime += readjustTime;
-            healthBar.value--;
+            decreaseTime += readjustTime;// readjust to prevent repeating
+            healthBar.value--;// minus 1% off health bar
         }
     }
 }

@@ -12,7 +12,7 @@ public class InventoryScript : MonoBehaviour
 
     private void Start()
     {
-        inventoryBar.fillAmount = fillAmount/20;
-        count.text = Convert.ToString(fillAmount);
+        inventoryBar.fillAmount = fillAmount/20;// divides by 20, which is the max capacity of the inventory
+        count.text = Convert.ToString(fillAmount);//fill the hexagon by the percentage of the inventory capacity
     }
 }
