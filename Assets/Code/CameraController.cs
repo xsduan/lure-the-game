@@ -5,20 +5,24 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     #region Class Variables
-    public Transform[] viewPoints;
+    //public Transform[] viewPoints;
     public float transformSpeed = 1.0f;
+    public Transform player;
+    //public int lookOffsetCount = 10;
+
     private Transform currentView;
     private int currentIndex = 0;
+
     #endregion
 
     void Start()
     {
-        currentView = viewPoints[currentIndex];
+        //currentView = viewPoints[currentIndex];
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        /*if (Input.GetKeyDown(KeyCode.F))
         {
             //increases the index of where the current camera should be pointing to
             currentIndex += 1;
@@ -29,18 +33,16 @@ public class CameraController : MonoBehaviour
                 currentIndex = 0;
             }
             currentView = viewPoints[currentIndex];
-        }
+            //ChangeView();
+        }*/
     }
 
     void LateUpdate()
     {
-        //Linear interpolate position between the current position of the camera and the views current position
-        transform.position = Vector3.Lerp(transform.position, currentView.position, Time.deltaTime * transformSpeed);
+        transform.position = player.TransformPoint(new Vector3(0, 2f, -4.0f));
 
-
-        //Linear interpolation for rotating the camera between the camera's current angle and the angle of the current viewpoint
         Vector3 eulerAnglesOfCam = transform.rotation.eulerAngles;
-        Vector3 eulerAnglesOfView = currentView.transform.rotation.eulerAngles;
+        Vector3 eulerAnglesOfView = player.transform.rotation.eulerAngles;
         float speed = Time.deltaTime * transformSpeed;
 
         Vector3 currentAngle = new Vector3(
@@ -50,5 +52,28 @@ public class CameraController : MonoBehaviour
         );
 
         transform.eulerAngles = currentAngle;
+        transform.LookAt(player);
+    }
+
+    void ChangeView()
+    {
+        while (transform.position != currentView.position)
+        {
+            //Linear interpolate position between the current position of the camera and the views current position
+            transform.position = Vector3.Lerp(transform.position, currentView.position, Time.deltaTime * transformSpeed);
+
+            //Linear interpolation for rotating the camera between the camera's current angle and the angle of the current viewpoint
+            Vector3 eulerAnglesOfCam = transform.rotation.eulerAngles;
+            Vector3 eulerAnglesOfView = currentView.transform.rotation.eulerAngles;
+            float speed = Time.deltaTime * transformSpeed;
+
+            Vector3 currentAngle = new Vector3(
+                Mathf.LerpAngle(eulerAnglesOfCam.x, eulerAnglesOfView.x, speed),
+                Mathf.LerpAngle(eulerAnglesOfCam.y, eulerAnglesOfView.y, speed),
+                Mathf.LerpAngle(eulerAnglesOfCam.z, eulerAnglesOfView.z, speed)
+            );
+
+            transform.eulerAngles = currentAngle;
+        }
     }
 }
