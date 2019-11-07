@@ -27,6 +27,7 @@ public class WaterWaves : MonoBehaviour
         int tileSideCount = (int)gameObject.transform.localScale.x/tileSize;
 
         tileCount = tileSideCount*tileSideCount;
+        Debug.Log(tileCount);
         for(int i = 0; i < tileCount; i++) {
             int xCoord = (int)Mathf.Floor(i/resolution);
             int yCoord = i%resolution;
@@ -35,7 +36,7 @@ public class WaterWaves : MonoBehaviour
             Debug.Log(tileRelativeScale);
             copyTile.transform.localScale.Set(tileRelativeScale, 1f, tileRelativeScale);
             Debug.Log(copyTile.transform.localScale);
-            copyTile.transform.localPosition.Set(xCoord-tileSideCount+1, 0f, yCoord-tileSideCount+1);
+            copyTile.transform.localPosition.Set(xCoord-tileSideCount+1f, 0f, yCoord-tileSideCount+1f);
 
             copyTile.transform.parent = gameObject.transform;
             copyTile.GetComponent<WaterWaves>().enabled = false;
@@ -60,7 +61,6 @@ public class WaterWaves : MonoBehaviour
         }
 
         for(int i = 0; i < tileCount; i++) {
-            Debug.Log(gameObject.transform.GetChild(i).transform.localScale);
             gameObject.transform.GetChild(i).GetComponent<MeshRenderer>().material.SetTexture("_BumpMap", BuildWaterBumpMap(vertices, resolution, magnitude));
         }
         gameObject.GetComponent<MeshRenderer>().material.SetTexture("_BumpMap", BuildWaterBumpMap(vertices, resolution, magnitude));

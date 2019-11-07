@@ -13,6 +13,8 @@ public class BoatMovement : MonoBehaviour
     public float accelerateSpeed;
     public float rotateCameraHorizontalSpeed;
     public float rotateCameraVerticalSpeed;
+    public float rowRate;
+    public float speedThreshold;
 
     private Rigidbody rb;
 
@@ -44,12 +46,14 @@ public class BoatMovement : MonoBehaviour
             //Fishing mode
             RotateHeadInFishMode();
         }
+
+        
     }
 
     private void MoveBoat()
     {
         //gets the horiztontal and vertical input from the keyboard (arrow keys)
-        float moveLeftRight = Input.GetAxis("Horizontal");
+        float moveLeftRight = Input.GetAxis("Horizontal");        
         float moveFrontBack = Input.GetAxis("Vertical");
 
         float trueTurnSpeed = turnSpeed;
@@ -66,15 +70,23 @@ public class BoatMovement : MonoBehaviour
         //boats struggle to go in reverse, so to account for this we lower the true acceleration of the boat when the user tells the boat to go backwards
         if (moveFrontBack < 0)
         {
-            trueAccelerateSpeed /= 1.5f;
+            trueAccelerateSpeed *= 0.8f;
             moveLeftRight *= -1;
         }
+
+        //Periodically increase the acceleration to simulate oar rowing
+        trueAccelerateSpeed *= 1 + Mathf.Abs(Mathf.Sin(Time.time*rowRate));
+
+        Debug.Log(trueAccelerateSpeed*moveFrontBack);
 
         //changes rotation by 0.0 in the x and z axes, and rotates by modified turn speed * horizontal input * Time.deltatime
         rb.AddTorque(0f, moveLeftRight * trueTurnSpeed * Time.deltaTime, 0f);
 
         //moves the rigidbody along the current view direction (transform.forward) by true acceleration * vertical input * Time.deltatime
         rb.AddForce(transform.forward * moveFrontBack * trueAccelerateSpeed * Time.deltaTime);
+
+        //limit the boat's max speed
+        rb.velocity = Vector3.ClampMagnitude(rb.velocity, speedThreshold);
     } 
 
     private void RotateHeadInFishMode()
