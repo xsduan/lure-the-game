@@ -38,11 +38,13 @@ public class BoatMovement : MonoBehaviour
         {
             //Movement mode
             MoveBoat();
+            Cursor.lockState = CursorLockMode.None;
         }
         else
         {
             //Fishing mode
             RotateHeadInFishMode();
+            Cursor.lockState = CursorLockMode.Locked;
         }
     }
 
@@ -80,10 +82,10 @@ public class BoatMovement : MonoBehaviour
     private void RotateHeadInFishMode()
     {
         //change rotation about the y axis in unity
-        yaw += rotateCameraHorizontalSpeed * Input.GetAxis("Horizontal");
+        yaw += rotateCameraHorizontalSpeed * Input.GetAxis("Mouse X");
 
         //change pitch of camera to look up or down
-        float pitchDelta = rotateCameraVerticalSpeed * Input.GetAxis("Vertical");
+        float pitchDelta = rotateCameraVerticalSpeed * Input.GetAxis("Mouse Y");
         if (Mathf.Abs(pitch - pitchDelta) > 20) //limits the camera to only look 20 degrees up or 20 degrees down from the horizon
         {
             pitchDelta = 0.0f;
