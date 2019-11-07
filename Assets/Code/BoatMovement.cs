@@ -77,8 +77,6 @@ public class BoatMovement : MonoBehaviour
         //Periodically increase the acceleration to simulate oar rowing
         trueAccelerateSpeed *= 1 + Mathf.Abs(Mathf.Sin(Time.time*rowRate));
 
-        Debug.Log(trueAccelerateSpeed*moveFrontBack);
-
         //changes rotation by 0.0 in the x and z axes, and rotates by modified turn speed * horizontal input * Time.deltatime
         rb.AddTorque(0f, moveLeftRight * trueTurnSpeed * Time.deltaTime, 0f);
 
