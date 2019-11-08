@@ -1,96 +1,120 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject pauseMenu;
-    private int pauseMenuActive = 0;
-    public GameObject MainMenu;
-    public GameObject HUD;
-    public GameObject ShopCanvas;
-    public GameObject InventoryCanvas;
-    public GameObject MapCanvas;
-    private bool IsMenuActive;
+    #region PUBLIC_VARS
+    public List<CameraPair> Cameras;
+    public List<GuiPair> GUIs;
+    public GameObject Background;
+    #endregion
 
-    public Camera Camera;
-    public Camera MenuCamera;
+    /// <summary>
+    /// Essentially KeyValuePair of CameraState and Camera but able to be read by the Unity editor.
+    /// </summary>
+    [System.Serializable]
+    public struct CameraPair { public CameraState Key; public Camera Value; }
 
-    private UniquePrefabSwitch menus;
-    
+    /// <summary>
+    /// Essentially KeyValuePair of GuiState and GameObject but able to be read by the Unity editor.
+    /// </summary>
+    [System.Serializable]
+    public struct GuiPair { public GuiState Key; public GameObject Value; }
+
+    public enum CameraState { MAIN, ALTERNATE };
+    public enum GuiState { PAUSE, MAIN, HUD };
+
+    private UniquePrefabSwitch subMenus;
+    private Dictionary<GuiState, GameObject> guisDict;
+    private Dictionary<CameraState, Camera> camerasDict;
+
+    private static void SwapAction<T1, T2>(
+        Dictionary<T1, T2> dict, T1 currentKey, T1 newKey,
+        System.Action<T2> currentAction, System.Action<T2> newAction
+    )
+    {
+        dict.TryGetValue(newKey, out T2 newValue);
+        if (newValue == null)
+        {
+            Debug.LogWarning($"There isn't a value for {newKey}. Ignoring.");
+            return;
+        }
+
+        dict.TryGetValue(currentKey, out T2 currentValue);
+
+        currentAction(currentValue);
+        newAction(newValue);
+    }
+
+    private CameraState _currentCameraState;
+    private CameraState CurrentCameraState
+    {
+        get { return _currentCameraState; }
+        set
+        {
+            SwapAction(camerasDict, _currentCameraState, value, c => c.enabled = false, n => n.enabled = true);
+            _currentCameraState = value;
+        }
+    }
+
+    private GuiState _currentGuiState;
+    private GuiState CurrentGuiState
+    {
+        get { return _currentGuiState; }
+        set
+        {
+            SwapAction(guisDict, _currentGuiState, value, c => c.SetActive(false), n => n.SetActive(true));
+            _currentGuiState = value;
+        }
+    }
+
     void Start()
     {
-        menus = new UniquePrefabSwitch(transform);
-        Time.timeScale = 0;
-        pauseMenu.SetActive(false);
-        Camera.enabled = false;
-        MenuCamera.enabled = true;
-        HUD.SetActive(false);
+        guisDict = GUIs.ToDictionary(kp => kp.Key, kp =>
+        {
+            kp.Value.SetActive(false);
+            return kp.Value;
+        });
+        camerasDict = Cameras.ToDictionary(kp => kp.Key, kp => kp.Value);
+        subMenus = new UniquePrefabSwitch(guisDict[GuiState.PAUSE].transform);
 
-        MapCanvas.SetActive(false);
-        ShopCanvas.SetActive(false);
-        InventoryCanvas.SetActive(false);
-        IsMenuActive = true;
+        GoMainMenu();
     }
-    
-    void Update()
+
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (IsMenuActive == false)
+            switch (CurrentGuiState)
             {
-                if (pauseMenuActive == 1)
-                {
-                    pauseMenu.SetActive(false);
-                    pauseMenuActive = 0;
-                    Time.timeScale = 1;
-                }
-
-                else if (pauseMenuActive == 0)
-                {
-                    pauseMenu.SetActive(true);
-                    pauseMenuActive = 1;
-                    Time.timeScale = 0;
-                }
+                case GuiState.HUD:
+                    GoPauseGame();
+                    break;
+                case GuiState.PAUSE:
+                    GoActive();
+                    break;
+                case GuiState.MAIN:
+                    break;
             }
             
         }
-
     }
 
-    public void GetBack()
+    private void UpdateState(CameraState cameraState, GuiState guiState, Pauser.PauseState pauseState, bool background)
     {
-        pauseMenu.SetActive(false); 
-        pauseMenu.SetActive(false); 
-        pauseMenuActive = 0;
-        Time.timeScale = 1;
+        CurrentCameraState = cameraState;
+        CurrentGuiState = guiState;
+        Pauser.SetPauseState(pauseState);
+        Background.SetActive(background);
     }
 
-    public void StartGame()
-    {
-        Time.timeScale = 1;
-        Camera.enabled = true;
-        MenuCamera.enabled = false;
-        MainMenu.SetActive(false);
-        HUD.SetActive(true);
-        IsMenuActive = false;
-    }
+    public void GoActive() => UpdateState(CameraState.MAIN, GuiState.HUD, Pauser.PauseState.ACTIVE, false);
+    public void GoMainMenu() => UpdateState(CameraState.ALTERNATE, GuiState.MAIN, Pauser.PauseState.PAUSED, true);
+    public void GoPauseGame() => UpdateState(CameraState.MAIN, GuiState.PAUSE, Pauser.PauseState.PAUSED, true);
 
-    public void mainMenuActive()
-    {
-        Time.timeScale = 0;
-        Camera.enabled = false;
-        MenuCamera.enabled = true;
-        HUD.SetActive(false);
-        pauseMenu.SetActive(false);
-        MainMenu.SetActive(true);
-        IsMenuActive = true;
-    }
+    public void ExitGame() => Application.Quit();
 
-    public void ExitGame()
-    {
-        Application.Quit();
-    }
-
-    public void ActivateMenu(GameObject prefabMenu) => menus.ActivateMenu(prefabMenu);
+    public void ActivateMenu(GameObject prefabMenu) => subMenus.Activate(prefabMenu);
 }
