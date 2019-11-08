@@ -22,9 +22,6 @@ public class BoatMovement : MonoBehaviour
     public float speedThreshold;
 
     private Rigidbody rb;
-    private float currentVelocity;
-    private float movementDirection;
-    private float directionDelta;
 
     private bool isFishing = false;
     private float yaw = -90.0f;
@@ -66,27 +63,28 @@ public class BoatMovement : MonoBehaviour
         //moving forward & backward-- using GetAxis rather than GetKey for keybinding and cross-platform
         if(Input.GetAxis("Vertical") > 0) {
             //don't accelerate if we're turning too sharply or if we're too fast
-            if(Mathf.Abs(velo) < speedThreshold && Mathf.Abs(direchange) < turnVelocityEffectThreshold) {
+            if(velo < speedThreshold && Mathf.Abs(direchange) < turnVelocityEffectThreshold) {
                 velo += 0.05f;
             }
         } else if (Input.GetAxis("Vertical") < 0) {
-            if(Mathf.Abs(velo) < speedThreshold && Mathf.Abs(direchange) < turnVelocityEffectThreshold) {
+            if(velo > -1*speedThreshold && Mathf.Abs(direchange) < turnVelocityEffectThreshold) {
                 velo -= 0.05f/1.25f;
             }        
         } else {
-            //decrease the magnitude of the velocity by 0.05 
-            if(velo > 0) {
+            //decrease the magnitude of the velocity by 0.025
+            if(velo > 0.025f) {
                 velo -= 0.025f;
-            } else if(velo < 0) {
+            } else if(velo < 0.025f) {
                 velo += 0.025f;
             } else {
                 //if the magnitude is less than 0.05, snap it to 0
                 velo = 0f;
             }
         }
-
+        
         //turning left
         if(Input.GetAxis("Horizontal") < 0) {
+            
             if(Mathf.Abs(direchange) < maxTurn) {
                 direchange -= 0.03f;
             }
@@ -97,7 +95,7 @@ public class BoatMovement : MonoBehaviour
         }
 
         //turning right
-        if(Input.GetAxis("Horizontal") < 0) {
+        if(Input.GetAxis("Horizontal") > 0) {
             if(Mathf.Abs(direchange) < maxTurn) {
                 direchange += 0.03f;
             }

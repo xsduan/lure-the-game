@@ -871,10 +871,9 @@ MonoBehaviour:
   person: {fileID: 1189388996}
   firstPerson: {fileID: 35702673}
   thirdPerson: {fileID: 904397226}
-  turnSpeed: 350
-  accelerateSpeed: 500
   rotateCameraHorizontalSpeed: 0.5
   rotateCameraVerticalSpeed: 0.25
+  speedThreshold: 1.67
 --- !u!54 &701851885
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -889,7 +888,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!1 &705507993
 GameObject:
@@ -1635,6 +1634,36 @@ PrefabInstance:
       propertyPath: Cameras.Array.data[1].Value
       value: 
       objectReference: {fileID: 410684896}
+    - target: {fileID: 4664153376349794448, guid: 9c84c1feb1663004ea308a3536ae968a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 770030225454784239, guid: 9c84c1feb1663004ea308a3536ae968a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084312233453299233, guid: 9c84c1feb1663004ea308a3536ae968a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1386192862057475723, guid: 9c84c1feb1663004ea308a3536ae968a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1386192862551357533, guid: 9c84c1feb1663004ea308a3536ae968a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -400
+      objectReference: {fileID: 0}
+    - target: {fileID: 1386192862551357533, guid: 9c84c1feb1663004ea308a3536ae968a,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -187.76224
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c84c1feb1663004ea308a3536ae968a, type: 3}
 --- !u!1 &1807222714
