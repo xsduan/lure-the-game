@@ -8,6 +8,7 @@
     "com.unity.timeline": "1.1.0",
     "com.unity.ugui": "1.0.0",
     "com.unity.xr.legacyinputhelpers": "2.0.2",
+    "com.xsduan.hierarchy-folders": "https://github.com/xsduan/unity-hierarchy-folders.git",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.animation": "1.0.0",
     "com.unity.modules.assetbundle": "1.0.0",
@@ -31,5 +32,11 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0"
+  },
+  "lock": {
+    "com.xsduan.hierarchy-folders": {
+      "hash": "369b32c4aa38d5c0203a9d373107974be710ffe7",
+      "revision": "HEAD"
+    }
   }
 }
