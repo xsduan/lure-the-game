@@ -3,12 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A utility class to help manage mutually exclusive items.
+/// </summary>
+/// <typeparam name="TKey">Key to identify values by.</typeparam>
+/// <typeparam name="TValue">Object that can be toggled on and off.</typeparam>
 public class Swapper<TKey, TValue> : Dictionary<TKey, TValue>
 {
     private TKey currentKey;
     private readonly Action<TValue, bool> defaultCallback;
 
-    public TKey CurrentKey { get => currentKey; set => ChoiceSetSwap(value); }
+    /// <summary>
+    /// The key that is currently active, i.e. selected.
+    /// </summary>
+    public TKey CurrentKey { get => currentKey; set => Swap(value); }
 
     public Swapper(Action<TValue, bool> defaultCallback) : base()
     {
@@ -20,7 +28,12 @@ public class Swapper<TKey, TValue> : Dictionary<TKey, TValue>
         this.defaultCallback = defaultCallback;
     }
     
-    public void ChoiceSetSwap(TKey newKey, Action<TValue, bool> overrideCallback = null)
+    /// <summary>
+    /// Swap to new key.
+    /// </summary>
+    /// <param name="newKey">New key to switch to.</param>
+    /// <param name="overrideCallback">Optional override action, in case unique behavior is needed.</param>
+    public void Swap(TKey newKey, Action<TValue, bool> overrideCallback = null)
     {
         var callback = overrideCallback ?? defaultCallback;
 

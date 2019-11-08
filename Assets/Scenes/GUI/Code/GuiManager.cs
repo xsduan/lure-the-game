@@ -22,13 +22,34 @@ public class GuiManager : MonoBehaviour
     /// </summary>
     [System.Serializable]
     public struct GuiPair { public GuiState Key; public GameObject Value; }
+    
+    public enum CameraState
+    {
+        /// <summary>
+        /// Main camera, e.g. the camera that the main game is played on.
+        /// </summary>
+        MAIN,
+        /// <summary>
+        /// Scenic camera, e.g. the camera that will be used for main menus.
+        /// </summary>
+        ALTERNATE
+    };
 
-    public enum CameraState { MAIN, ALTERNATE };
+    /// <summary>
+    /// Mutually exclusive GUI components.
+    /// </summary>
     public enum GuiState { PAUSE, MAIN, HUD };
-
+    
     private UniquePrefabSwitch subMenus;
 
+    /// <summary>
+    /// Camera states. Copied from Cameras because Unity can't handle dictionaries.
+    /// </summary>
     private Swapper<CameraState, Camera> cameras;
+
+    /// <summary>
+    /// GUI states. Copied from GUIs because Unity can't handle dictionaries.
+    /// </summary>
     private Swapper<GuiState, GameObject> guis;
 
     void Start()
@@ -64,7 +85,7 @@ public class GuiManager : MonoBehaviour
             
         }
     }
-
+    
     private void UpdateState(CameraState cameraState, GuiState guiState, Pauser.PauseState pauseState, bool background)
     {
         cameras.CurrentKey = cameraState;
