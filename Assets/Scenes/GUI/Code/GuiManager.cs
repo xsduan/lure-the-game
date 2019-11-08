@@ -39,8 +39,6 @@ public class GuiManager : MonoBehaviour
     /// Mutually exclusive GUI components.
     /// </summary>
     public enum GuiState { PAUSE, MAIN, HUD };
-    
-    private UniquePrefabSwitch subMenus;
 
     /// <summary>
     /// Camera states. Copied from Cameras because Unity can't handle dictionaries.
@@ -62,7 +60,6 @@ public class GuiManager : MonoBehaviour
             Cameras.ToDictionary(kp => kp.Key, kp => kp.Value),
             (camera, active) => camera.enabled = active
         );
-        subMenus = new UniquePrefabSwitch(guis[GuiState.PAUSE].transform);
 
         GoMainMenu();
     }
@@ -99,6 +96,4 @@ public class GuiManager : MonoBehaviour
     public void GoPauseGame() => UpdateState(CameraState.MAIN, GuiState.PAUSE, Pauser.PauseState.PAUSED, true);
 
     public void ExitGame() => Application.Quit();
-
-    public void ActivateMenu(GameObject prefabMenu) => subMenus.Activate(prefabMenu);
 }

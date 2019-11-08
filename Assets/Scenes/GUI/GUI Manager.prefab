@@ -2327,7 +2327,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1386192861932991543}
+      - m_Target: {fileID: 1787161675829253905}
         m_MethodName: ActivateMenu
         m_Mode: 2
         m_Arguments:
@@ -2901,7 +2901,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1386192861932991543}
+      - m_Target: {fileID: 1787161675829253905}
         m_MethodName: ActivateMenu
         m_Mode: 2
         m_Arguments:
@@ -3108,7 +3108,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4664153376277343929}
-  - component: {fileID: 4664153376277343930}
+  - component: {fileID: 1787161675829253905}
   m_Layer: 5
   m_Name: Menus
   m_TagString: Untagged
@@ -3133,7 +3133,7 @@ Transform:
   m_Father: {fileID: 4664153376349794448}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4664153376277343930
+--- !u!114 &1787161675829253905
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3142,7 +3142,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4664153376277343928}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 149818d5acbed4455af27721dc46461a, type: 3}
+  m_Script: {fileID: 11500000, guid: 182410b47cb0e6742a8de7085a8f5745, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4664153376348619816
@@ -4067,7 +4067,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1386192861932991543}
+      - m_Target: {fileID: 1787161675829253905}
         m_MethodName: ActivateMenu
         m_Mode: 2
         m_Arguments:
