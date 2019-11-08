@@ -1344,7 +1344,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4084312233443696844}
   m_Layer: 5
-  m_Name: Sanity UI
+  m_Name: Sanity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1496,7 +1496,7 @@ GameObject:
   - component: {fileID: 4084312233464700208}
   - component: {fileID: 4084312233464700209}
   m_Layer: 5
-  m_Name: Circular Bar
+  m_Name: Inventory Capacity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1779,7 +1779,7 @@ GameObject:
   - component: {fileID: 4084312233720144582}
   - component: {fileID: 4084312233720144583}
   m_Layer: 5
-  m_Name: Money UI
+  m_Name: Money
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1831,7 +1831,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4084312233943385616}
   m_Layer: 5
-  m_Name: Health UI
+  m_Name: Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
