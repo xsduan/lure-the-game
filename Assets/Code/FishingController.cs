@@ -17,8 +17,11 @@ public class FishingController : MonoBehaviour
     [SerializeField] Animator anim;
     bool throwingLine = false;
 
-    public float maxHookDepth;
-    public float maxHookDistance;
+    public float maxHookDepth; //the theoretical maximum hook depth with the current equipment
+    public float maxHookDistance; //the theoretical maximum hook depth with the current equipment
+
+    float hookDepth; //how deep the hook can currently go, if it's reeled in
+    float hookDistance; //how far the hook can currently go, if it's reeled in
 
 
     // Update is called once per frame
@@ -52,16 +55,27 @@ public class FishingController : MonoBehaviour
         hook.transform.position = rodTip.transform.position;
 
         hook.GetComponent<Rigidbody>().AddForce(transform.parent.transform.forward * 50f);
+        hookDepth = maxHookDepth;
+        hookDistance = maxHookDistance;
     }
 
+
+    //Makes it impossible for the hook to move beyond a specified depth and radius.
     private void ConstrainHookPosition()
     {
-        if(hook.transform.position.y < maxHookDepth)
-        {
-            Vector3 newHookPos = hook.transform.position;
-            newHookPos.y = Mathf.Clamp(newHookPos.y, maxHookDepth, Mathf.Infinity);
-            hook.transform.position = newHookPos;
-        }
+
+        Vector3 hookPos = hook.transform.position;
+        Vector3 hookPosXZ = new Vector3(hook.transform.position.x, 0.0f, hook.transform.position.z); //The position of the hook along the X and Z axes
+        Vector3 rodTipPosXZ = new Vector3(rodTip.transform.position.x, 0.0f, rodTip.transform.position.z);
+        Vector3 hookOffset = hookPosXZ - rodTipPosXZ;
+
+        hookOffset = Vector3.ClampMagnitude(hookOffset, hookDistance);
+        Vector3 newHookPos = rodTip.transform.position + hookOffset;
+
+        
+        newHookPos.y = Mathf.Clamp(hookPos.y, hookDepth, Mathf.Infinity);
+
+        hook.transform.position = newHookPos;
     }
 
 }
