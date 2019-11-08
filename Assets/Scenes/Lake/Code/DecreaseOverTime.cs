@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
-public class decreaseOverTime : MonoBehaviour
+public class DecreaseOverTime : MonoBehaviour
 {
     public Image healthBar;
     private float health;

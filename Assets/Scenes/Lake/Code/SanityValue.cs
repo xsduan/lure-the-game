@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
-public class sanityValue : MonoBehaviour
+public class SanityValue : MonoBehaviour
 {
     public Slider sanitySlider;
     public float sanity;
