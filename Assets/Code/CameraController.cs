@@ -12,7 +12,6 @@ public class CameraController : MonoBehaviour
     #endregion
     
 
-    [SerializeField] FirstPersonArm arm;
 
     void Start()
     {
@@ -23,11 +22,6 @@ public class CameraController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
-            if(currentIndex == 0)
-            {
-                arm.Open();
-                arm.gameObject.GetComponent<MeshRenderer>().enabled = true;
-            }
             //increases the index of where the current camera should be pointing to
             currentIndex += 1;
 
@@ -35,7 +29,6 @@ public class CameraController : MonoBehaviour
             if(currentIndex >= viewPoints.Length)
             {
                 currentIndex = 0;
-                arm.Close();
             }
             currentView = viewPoints[currentIndex];
 
