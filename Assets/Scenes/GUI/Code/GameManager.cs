@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    #region PUBLIC_VARS
+    #region Inspector Variables
     public List<CameraPair> Cameras;
     public List<GuiPair> GUIs;
     public GameObject Background;
