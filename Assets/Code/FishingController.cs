@@ -24,9 +24,13 @@ public class FishingController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButtonDown(0) && !throwingLine)
+        if(Input.GetMouseButtonDown(0) && !throwingLine && !hook)
         {
             ThrowLine();
+        }
+        if(hook)
+        {
+            ConstrainHookPosition();
         }
     }
 
@@ -44,6 +48,20 @@ public class FishingController : MonoBehaviour
     private void ReleaseLine()
     {
         throwingLine = false;
+        hook = Instantiate(hookPrefab);
+        hook.transform.position = rodTip.transform.position;
+
+        hook.GetComponent<Rigidbody>().AddForce(transform.parent.transform.forward * 50f);
+    }
+
+    private void ConstrainHookPosition()
+    {
+        if(hook.transform.position.y < maxHookDepth)
+        {
+            Vector3 newHookPos = hook.transform.position;
+            newHookPos.y = Mathf.Clamp(newHookPos.y, maxHookDepth, Mathf.Infinity);
+            hook.transform.position = newHookPos;
+        }
     }
 
 }

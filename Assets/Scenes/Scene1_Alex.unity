@@ -1335,10 +1335,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isFishing: 0
   view: {fileID: 0}
-  hookPrefab: {fileID: 0}
+  hookPrefab: {fileID: 3117793874295127031, guid: 6e5d0cad1c7a4a84dbe8ee7fd1bb6d84,
+    type: 3}
   rodTip: {fileID: 2085579834}
   anim: {fileID: 1189388997}
-  maxHookDepth: 0
+  maxHookDepth: -1
   maxHookDistance: 0
 --- !u!114 &1189388999
 MonoBehaviour:
@@ -2079,7 +2080,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2085579833}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.529, y: 0, z: 0}
+  m_LocalPosition: {x: -0.558, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1601170805}

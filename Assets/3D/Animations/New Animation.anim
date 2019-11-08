@@ -379,7 +379,7 @@ AnimationClip:
   m_HasGenericRootTransform: 1
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.76666665
+  - time: 0.73333335
     functionName: ReleaseLine
     data: 
     objectReferenceParameter: {fileID: 0}
