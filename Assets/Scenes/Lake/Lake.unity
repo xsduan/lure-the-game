@@ -1680,6 +1680,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -197.00499
       objectReference: {fileID: 0}
+    - target: {fileID: 4664153375585109328, guid: 9c84c1feb1663004ea308a3536ae968a,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Restart
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c84c1feb1663004ea308a3536ae968a, type: 3}
 --- !u!1 &1807222714

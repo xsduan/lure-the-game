@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GuiManager : MonoBehaviour
 {
@@ -91,9 +92,11 @@ public class GuiManager : MonoBehaviour
         Background.SetActive(background);
     }
 
+    private void GoMainMenu() => UpdateState(CameraState.ALTERNATE, GuiState.MAIN, Pauser.PauseState.PAUSED, true);
+
     public void GoActive() => UpdateState(CameraState.MAIN, GuiState.HUD, Pauser.PauseState.ACTIVE, false);
-    public void GoMainMenu() => UpdateState(CameraState.ALTERNATE, GuiState.MAIN, Pauser.PauseState.PAUSED, true);
     public void GoPauseGame() => UpdateState(CameraState.MAIN, GuiState.PAUSE, Pauser.PauseState.PAUSED, true);
+    public void Restart() => SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
 
     public void ExitGame() => Application.Quit();
 }
