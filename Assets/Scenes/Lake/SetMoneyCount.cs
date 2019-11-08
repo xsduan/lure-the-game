@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
-public class setMoneyCount : MonoBehaviour
+public class SetMoneyCount : MonoBehaviour
 {
     public Text money;
     public int amountOfMoney;
