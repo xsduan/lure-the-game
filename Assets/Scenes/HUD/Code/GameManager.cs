@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,9 +15,12 @@ public class GameManager : MonoBehaviour
 
     public Camera Camera;
     public Camera MenuCamera;
+
+    private UniquePrefabSwitch menus;
     
     void Start()
     {
+        menus = new UniquePrefabSwitch(transform);
         Time.timeScale = 0;
         pauseMenu.SetActive(false);
         Camera.enabled = false;
@@ -89,24 +92,5 @@ public class GameManager : MonoBehaviour
         Application.Quit();
     }
 
-    public void ActivateShop()
-    {
-        MapCanvas.SetActive(false);
-        ShopCanvas.SetActive(true);
-        InventoryCanvas.SetActive(false);
-    }
-
-    public void ActivateMap()
-    {
-        MapCanvas.SetActive(true);
-        ShopCanvas.SetActive(false);
-        InventoryCanvas.SetActive(false);
-    }
-
-    public void ActivateInventory()
-    {
-        MapCanvas.SetActive(false);
-        ShopCanvas.SetActive(false);
-        InventoryCanvas.SetActive(true);
-    }
+    public void ActivateMenu(GameObject prefabMenu) => menus.ActivateMenu(prefabMenu);
 }
