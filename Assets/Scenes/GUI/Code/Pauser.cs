@@ -7,28 +7,14 @@ public static class Pauser
     public enum PauseState { PAUSED, ACTIVE }
 
     private static float lastActiveTimeScale;
-    public static PauseState CurrentPauseState { get; private set; }
+    private static readonly Swapper<PauseState, float> _pauseStatus;
+    public static PauseState PauseStatus
+    { get => _pauseStatus.CurrentKey; set => _pauseStatus.CurrentKey = value; }
 
-    public static void SetPauseState(PauseState pauseState)
+    static Pauser()
     {
-        if (CurrentPauseState == pauseState) return;
-        switch (pauseState)
-        {
-            case PauseState.PAUSED:
-                SetPause();
-                break;
-            case PauseState.ACTIVE:
-                SetActive();
-                break;
-        }
-        CurrentPauseState = pauseState;
+        _pauseStatus = new Swapper<PauseState, float>((scale, active) => { if (active) Time.timeScale = scale; });
+        _pauseStatus[PauseState.PAUSED] = 0;
+        _pauseStatus[PauseState.ACTIVE] = Time.timeScale;
     }
-
-    private static void SetPause()
-    {
-        lastActiveTimeScale = Time.timeScale;
-        Time.timeScale = 0;
-    }
-
-    private static void SetActive() => Time.timeScale = lastActiveTimeScale;
 }

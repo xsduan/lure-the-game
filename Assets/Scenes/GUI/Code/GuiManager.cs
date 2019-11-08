@@ -87,7 +87,7 @@ public class GuiManager : MonoBehaviour
     {
         cameras.CurrentKey = cameraState;
         guis.CurrentKey = guiState;
-        Pauser.SetPauseState(pauseState);
+        Pauser.PauseStatus = pauseState;
         Background.SetActive(background);
     }
 
