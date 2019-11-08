@@ -800,7 +800,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 87, y: -92}
-  m_SizeDelta: {x: 320, y: 60}
+  m_SizeDelta: {x: 320, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &426693980
 MonoBehaviour:
@@ -2027,9 +2027,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1d067f694afcd43af955c70a9d39d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryBar: {fileID: 0}
+  inventoryBar: {fileID: 1942099963}
   fillAmount: 12
-  count: {fileID: 0}
+  count: {fileID: 426693980}
 --- !u!1 &1566288500
 GameObject:
   m_ObjectHideFlags: 0
