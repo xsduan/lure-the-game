@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GuiManager : MonoBehaviour
 {
     #region Inspector Variables
     public List<CameraPair> Cameras;
@@ -27,58 +27,21 @@ public class GameManager : MonoBehaviour
     public enum GuiState { PAUSE, MAIN, HUD };
 
     private UniquePrefabSwitch subMenus;
-    private Dictionary<GuiState, GameObject> guisDict;
-    private Dictionary<CameraState, Camera> camerasDict;
 
-    private static void SwapAction<T1, T2>(
-        Dictionary<T1, T2> dict, T1 currentKey, T1 newKey,
-        System.Action<T2> currentAction, System.Action<T2> newAction
-    )
-    {
-        dict.TryGetValue(newKey, out T2 newValue);
-        if (newValue == null)
-        {
-            Debug.LogWarning($"There isn't a value for {newKey}. Ignoring.");
-            return;
-        }
-
-        dict.TryGetValue(currentKey, out T2 currentValue);
-
-        currentAction(currentValue);
-        newAction(newValue);
-    }
-
-    private CameraState _currentCameraState;
-    private CameraState CurrentCameraState
-    {
-        get { return _currentCameraState; }
-        set
-        {
-            SwapAction(camerasDict, _currentCameraState, value, c => c.enabled = false, n => n.enabled = true);
-            _currentCameraState = value;
-        }
-    }
-
-    private GuiState _currentGuiState;
-    private GuiState CurrentGuiState
-    {
-        get { return _currentGuiState; }
-        set
-        {
-            SwapAction(guisDict, _currentGuiState, value, c => c.SetActive(false), n => n.SetActive(true));
-            _currentGuiState = value;
-        }
-    }
+    private Swapper<CameraState, Camera> cameras;
+    private Swapper<GuiState, GameObject> guis;
 
     void Start()
     {
-        guisDict = GUIs.ToDictionary(kp => kp.Key, kp =>
-        {
-            kp.Value.SetActive(false);
-            return kp.Value;
-        });
-        camerasDict = Cameras.ToDictionary(kp => kp.Key, kp => kp.Value);
-        subMenus = new UniquePrefabSwitch(guisDict[GuiState.PAUSE].transform);
+        guis = new Swapper<GuiState, GameObject>(
+            GUIs.ToDictionary(kp => kp.Key, kp => { kp.Value.SetActive(false); return kp.Value; }),
+            (gui, active) => gui.SetActive(active)
+        );
+        cameras = new Swapper<CameraState, Camera>(
+            Cameras.ToDictionary(kp => kp.Key, kp => kp.Value),
+            (camera, active) => camera.enabled = active
+        );
+        subMenus = new UniquePrefabSwitch(guis[GuiState.PAUSE].transform);
 
         GoMainMenu();
     }
@@ -87,7 +50,7 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            switch (CurrentGuiState)
+            switch (guis.CurrentKey)
             {
                 case GuiState.HUD:
                     GoPauseGame();
@@ -104,8 +67,8 @@ public class GameManager : MonoBehaviour
 
     private void UpdateState(CameraState cameraState, GuiState guiState, Pauser.PauseState pauseState, bool background)
     {
-        CurrentCameraState = cameraState;
-        CurrentGuiState = guiState;
+        cameras.CurrentKey = cameraState;
+        guis.CurrentKey = guiState;
         Pauser.SetPauseState(pauseState);
         Background.SetActive(background);
     }
