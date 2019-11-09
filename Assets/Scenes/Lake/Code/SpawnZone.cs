@@ -18,15 +18,15 @@ public class SpawnZone : MonoBehaviour
         //if spawn has not hit capacity
         if (pop < popCap) {
 
+            #region Randomize Vector (commented out)
             //Calculate random position within specified range and depth around spawn point.
             //pos = Random.insideUnitCircle * range;
             //pos.y = -Random.Range(-depth, -1);
             //pos += transform.position;
+            #endregion
 
             //spawn fish
-            GameObject obj = Object.Instantiate(fish, transform, false);
-            Debug.Log(transform.position);
-            Debug.Log(obj.transform.position);
+            GameObject obj = Object.Instantiate(fish, transform.position, Quaternion.identity);
             //obj.transform.position = new Vector3(0,0,0);
             pop++;
         }
