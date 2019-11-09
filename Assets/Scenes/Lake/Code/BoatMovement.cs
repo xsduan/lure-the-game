@@ -28,7 +28,7 @@ public class BoatMovement : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F))
         {
             isFishing = !isFishing;
             pitch = 0.0f;
@@ -76,5 +76,5 @@ public class BoatMovement : MonoBehaviour
 
         //moves the rigidbody along the current view direction (transform.forward) by true acceleration * vertical input * Time.deltatime
         rb.AddForce(transform.forward * moveFrontBack * trueAccelerateSpeed * Time.deltaTime);
-    } 
+    }
 }

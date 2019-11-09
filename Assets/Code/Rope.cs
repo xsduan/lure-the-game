@@ -13,7 +13,9 @@ public class Rope : MonoBehaviour
 
     [SerializeField] float maxSegmentLength = 0.25f; //Maximum distance between two points
     [SerializeField] float minSegmentLength = 0.01f; //Minimum distance between two points
-    [SerializeField] int pointCount = 35;
+
+    public int maxPointCount = 20;
+    [HideInInspector] public int pointCount;
 
     [SerializeField] float lineWidth = 0.1f; //How thick the line should be
     public Transform startObject; //The transform where the rope should start (probably representing the fishing line)
@@ -24,7 +26,6 @@ public class Rope : MonoBehaviour
 
     #region internal vars
 
-    private bool pullEndObject = false; //whether the position of the end object determines the location of the last point or vice versa
 
     private LineRenderer lineRenderer;
     private List<RopePoint> ropePoints = new List<RopePoint>();
@@ -36,6 +37,7 @@ public class Rope : MonoBehaviour
 
     void Awake()
     {
+        pointCount = maxPointCount;
         ropeSegmentLength = maxSegmentLength;
         lineRenderer = GetComponent<LineRenderer>();
         Vector3 startPoint = startObject.position;
@@ -93,15 +95,7 @@ public class Rope : MonoBehaviour
     public void AddConstraints()
     {
         ConstrainStartingPosition();
-        
-        if(!pullEndObject)
-        {
-            ConstrainEndingPosition();
-        }
-        else
-        {
-            PullHook();
-        }
+        ConstrainEndingPosition();
         ConstrainDistance();
     }
 
@@ -120,12 +114,6 @@ public class Rope : MonoBehaviour
         RopePoint point = ropePoints[pointCount - 1];
         point.posNow = endObject.position;
         ropePoints[pointCount - 1] = point;
-    }
-
-    //Moves the hook to the last point
-    public void PullHook()
-    {
-        endObject.position = ropePoints[pointCount - 1].posNow;
     }
 
     //Makes sure no two points can be any more than a certain distance from each other.
@@ -166,6 +154,19 @@ public class Rope : MonoBehaviour
     }
     #endregion
 
+    public void TurnOn()
+    {
+        lineRenderer.enabled = true;
+    }
+
+    public void TurnOff()
+    {
+        lineRenderer.enabled = false;
+    }
+    public void ResetPointCount()
+    {
+        pointCount = maxPointCount;
+    }
 
     public struct RopePoint
     {
