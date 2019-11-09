@@ -31,14 +31,6 @@ public class FishingController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
-            if(isFishing)
-            {
-                rope.TurnOff();
-                rope.endObject = rodTip;
-                Destroy(hook);
-                reelLength = 1.0f;
-
-            }
             isFishing = !isFishing; 
         }
 
@@ -48,6 +40,14 @@ public class FishingController : MonoBehaviour
             if (Input.GetMouseButtonDown(0) && !throwingLine && !hook)
             {
                 ThrowLine();
+            }
+
+            if (Input.GetMouseButtonDown(1) && hook)
+            {
+                rope.TurnOff();
+                rope.endObject = rodTip;
+                Destroy(hook);
+                reelLength = 1.0f;
             }
             
         }

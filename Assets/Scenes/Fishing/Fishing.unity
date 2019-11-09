@@ -573,12 +573,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 457411181}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fad121a32486864183bab97c73b5eac, type: 3}
+  m_Script: {fileID: 11500000, guid: 367e54287ebe1334abc7eca39dfdd3f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxSegmentLength: 0.25
   minSegmentLength: 0.01
-  pointCount: 35
+  maxPointCount: 35
+  pointCount: 0
   lineWidth: 0.01
   startObject: {fileID: 2085579834}
   endObject: {fileID: 2085579834}
@@ -1376,7 +1377,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1189388996}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b51a125cc8814c048b97ce9c49add17d, type: 3}
+  m_Script: {fileID: 11500000, guid: a50ac757e15a5be439773b9b7423b253, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isFishing: 0
@@ -1385,7 +1386,7 @@ MonoBehaviour:
   rodTip: {fileID: 2085579834}
   rope: {fileID: 457411183}
   anim: {fileID: 1189388997}
-  maxHookDepth: 0
+  maxHookDepth: -10
   maxHookDistance: 10
 --- !u!114 &1189388999
 MonoBehaviour:
