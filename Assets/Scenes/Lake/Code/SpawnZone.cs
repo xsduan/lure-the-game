@@ -24,10 +24,10 @@ public class SpawnZone : MonoBehaviour
             //pos += transform.position;
 
             //spawn fish
-            GameObject obj = Object.Instantiate(fish, transform.position, Quaternion.identity);
+            GameObject obj = Object.Instantiate(fish, transform, false);
             Debug.Log(transform.position);
             Debug.Log(obj.transform.position);
-            obj.transform.position = new Vector3(0,0,0);
+            //obj.transform.position = new Vector3(0,0,0);
             pop++;
         }
     }
