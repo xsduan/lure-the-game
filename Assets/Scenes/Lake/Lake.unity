@@ -1276,7 +1276,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fish: {fileID: 9166147638770281696, guid: 6cd03f68d0738c244b729ddcd3ce3efc, type: 3}
   population: 20
-  despawnDistance: 10
+  range: 50
+  depth: 5
+  despawnDistance: 70
 --- !u!114 &1189388999
 MonoBehaviour:
   m_ObjectHideFlags: 0

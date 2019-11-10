@@ -34,9 +34,9 @@ public class SpawnFish : MonoBehaviour
 
     GameObject Spawn()
     {
-        float randX = transform.position.x + Random.Range(1, range);
+        float randX = transform.position.x + Random.Range(-range, range);
         float randY = transform.position.y + Random.Range(1, depth);
-        float randZ = transform.position.z + Random.Range(1, range);
+        float randZ = transform.position.z + Random.Range(-range, range);
 
         Vector3 spawnPos = new Vector3(randX, randY, randZ);
 
