@@ -5,33 +5,39 @@ using UnityEngine;
 public class SpawnFish : MonoBehaviour
 {
     #region Class Variables
-    public GameObject fish;
-    public float range = 2.0f;
-    public float depth = 10f;
-    public int popCap = 5;
-    private int pop;
+    [SerializeField] GameObject fish;
+    [SerializeField] int population = 5;
+    [SerializeField] float despawnDistance = 10f;
+
+    private GameObject[] fishArray;
     #endregion
 
-    void OnTriggerStay ()
-    {
-        Spawn();
+    void Start () {
+        fishArray = new GameObject[population];
+        for (int i = 0; i < population; i++) {
+            if (fishArray[i] == null) {
+                fishArray[i] = Spawn();
+            }
+        }
     }
 
-    // Update is called once per frame
-    void Spawn()
-    {
-        Vector3 pos;
-        //if spawn has not hit capacity
-        if (pop < popCap){
-
-            //Calculate random position within specified range and depth around spawn point.
-            //pos = Random.insideUnitCircle * range;
-            //pos.y = -Random.Range(-depth, -1);
-            //pos += transform.position;
-
-            //spawn fish
-            Object.Instantiate(fish, transform.position, Quaternion.identity);
-            pop++;
+    void Update () {
+        for (int i = 0; i < population; i++) {
+            if (Vector3.Distance(transform.position, fishArray[i].transform.position) >= despawnDistance) {
+                Object.Destroy(fishArray[i]);
+                fishArray[i] = Spawn();
+            }
         }
+    }
+
+    GameObject Spawn()
+    {
+        float randX = transform.position.x + Random.Range(1, 10);
+        float randY = transform.position.y + Random.Range(1, 5);
+        float randZ = transform.position.z + Random.Range(1, 10);
+
+        Vector3 spawnPos = new Vector3(randX, randY, randZ);
+
+        return Object.Instantiate(fish, spawnPos, Quaternion.identity);
     }
 }

@@ -1012,6 +1012,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fish: {fileID: 8185682081522453481, guid: 5b3fb09762b2aa34a80e9e249e61d35e, type: 3}
+  pop: 0
   popCap: 10
 --- !u!4 &727584286
 Transform:
@@ -1253,6 +1254,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1189389000}
   - component: {fileID: 1189388999}
+  - component: {fileID: 1189388997}
   m_Layer: 0
   m_Name: Person
   m_TagString: Untagged
@@ -1260,6 +1262,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1189388997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1189388996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 659e3f4f531c85440b4498c29630f85e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fish: {fileID: 9166147638770281696, guid: 6cd03f68d0738c244b729ddcd3ce3efc, type: 3}
+  population: 20
+  despawnDistance: 10
 --- !u!114 &1189388999
 MonoBehaviour:
   m_ObjectHideFlags: 0
