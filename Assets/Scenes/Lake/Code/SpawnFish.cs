@@ -7,6 +7,8 @@ public class SpawnFish : MonoBehaviour
     #region Class Variables
     [SerializeField] GameObject fish;
     [SerializeField] int population = 5;
+    [SerializeField] float range = 10f;
+    [SerializeField] float depth = 5f;
     [SerializeField] float despawnDistance = 10f;
 
     private GameObject[] fishArray;
@@ -32,9 +34,9 @@ public class SpawnFish : MonoBehaviour
 
     GameObject Spawn()
     {
-        float randX = transform.position.x + Random.Range(1, 10);
-        float randY = transform.position.y + Random.Range(1, 5);
-        float randZ = transform.position.z + Random.Range(1, 10);
+        float randX = transform.position.x + Random.Range(1, range);
+        float randY = transform.position.y + Random.Range(1, depth);
+        float randZ = transform.position.z + Random.Range(1, range);
 
         Vector3 spawnPos = new Vector3(randX, randY, randZ);
 
