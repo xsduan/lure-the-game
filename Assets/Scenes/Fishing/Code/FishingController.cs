@@ -23,7 +23,7 @@ public class FishingController : MonoBehaviour
 
     float hookDepth; //how deep the hook can currently go, if it's reeled in
     float hookDistance; //how far the hook can currently go, if it's reeled in
-    float reelLength = 1.0f; //
+    float reelLength = 1.0f;
 
 
     // Update is called once per frame
@@ -42,7 +42,7 @@ public class FishingController : MonoBehaviour
                 ThrowLine();
             }
 
-            if (Input.GetMouseButtonDown(1) && hook)
+            if ( (Input.GetMouseButtonDown(1) && hook) || (reelLength <= 0.0f) )
             {
                 rope.TurnOff();
                 rope.endObject = rodTip;
@@ -78,6 +78,7 @@ public class FishingController : MonoBehaviour
         hook.transform.position = rodTip.transform.position;
         hook.GetComponent<Rigidbody>().AddForce(-transform.right * 50f);
         hookDistance = maxHookDistance;
+        hookDepth = maxHookDepth;
 
         rope.startObject = rodTip.transform;
         rope.endObject = hook.transform;
