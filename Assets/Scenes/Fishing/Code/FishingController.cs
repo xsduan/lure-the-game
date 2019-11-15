@@ -31,6 +31,10 @@ public class FishingController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
+            if(isFishing)
+            {
+                transform.rotation = Quaternion.identity;
+            }
             isFishing = !isFishing; 
         }
 
