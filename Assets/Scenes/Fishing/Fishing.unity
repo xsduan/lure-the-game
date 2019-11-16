@@ -1487,7 +1487,7 @@ MonoBehaviour:
   rope: {fileID: 457411183}
   anim: {fileID: 1189388997}
   maxHookDepth: -10
-  maxHookDistance: 10
+  maxHookDistance: 30
 --- !u!114 &1189388999
 MonoBehaviour:
   m_ObjectHideFlags: 0

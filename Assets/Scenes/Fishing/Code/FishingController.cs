@@ -33,7 +33,7 @@ public class FishingController : MonoBehaviour
         {
             if(isFishing)
             {
-                transform.rotation = Quaternion.identity;
+                transform.localRotation = Quaternion.Euler(0.0f, 90.0f, 0.0f);
             }
             isFishing = !isFishing; 
         }
