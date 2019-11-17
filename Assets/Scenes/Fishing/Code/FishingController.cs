@@ -25,6 +25,11 @@ public class FishingController : MonoBehaviour
     float hookDistance; //how far the hook can currently go, if it's reeled in
     float reelLength = 1.0f;
 
+    int ropePointCount;
+    float ropeLength;
+
+    [SerializeField] AnimationCurve hookDepthCurve; //used to calculate stuff. i'm fucking tired.
+
 
     // Update is called once per frame
     void Update()
@@ -48,6 +53,8 @@ public class FishingController : MonoBehaviour
 
             if ( (Input.GetMouseButtonDown(1) && hook) || (reelLength <= 0.0f) )
             {
+                rope.pointCount = rope.maxPointCount;
+                rope.AttachToObject();
                 rope.TurnOff();
                 rope.endObject = rodTip;
                 Destroy(hook);
@@ -77,6 +84,8 @@ public class FishingController : MonoBehaviour
 
     private void ReleaseLine()
     {
+        ropePointCount = rope.pointCount;
+        ropeLength = (float) ropePointCount;
         throwingLine = false;
         hook = Instantiate(hookPrefab);
         hook.transform.position = rodTip.transform.position;
@@ -95,7 +104,13 @@ public class FishingController : MonoBehaviour
         {
             reelLength += Input.mouseScrollDelta.y * 0.01f;
             hookDepth = Mathf.Lerp(rodTip.transform.position.y, maxHookDepth, reelLength);
+            ropeLength = Mathf.Lerp(1.0f, (float)rope.maxPointCount, reelLength);
+            rope.pointCount = ((int)ropeLength) + 2;
             hookDistance = Mathf.Lerp(0.0f, maxHookDistance, reelLength);
+            if(reelLength <= 0.10f) 
+            {
+                rope.PullObject();
+            }
             Debug.Log(reelLength);
         }
     }
