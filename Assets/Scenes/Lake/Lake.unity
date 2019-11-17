@@ -933,10 +933,9 @@ MonoBehaviour:
   person: {fileID: 1189388996}
   firstPerson: {fileID: 35702673}
   thirdPerson: {fileID: 904397226}
-  turnSpeed: 350
-  accelerateSpeed: 500
   rotateCameraHorizontalSpeed: 0.5
   rotateCameraVerticalSpeed: 0.25
+  speedThreshold: 1.67
 --- !u!54 &701851885
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -951,7 +950,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!1 &705507993
 GameObject:
