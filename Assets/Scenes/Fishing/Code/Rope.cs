@@ -14,7 +14,7 @@ public class Rope : MonoBehaviour
     [SerializeField] float maxSegmentLength = 0.25f; //Maximum distance between two points
     [SerializeField] float minSegmentLength = 0.01f; //Minimum distance between two points
 
-    public int maxPointCount = 20;
+    public int maxPointCount = 30;
     [HideInInspector] public int pointCount;
 
     [SerializeField] float lineWidth = 0.1f; //How thick the line should be
@@ -30,6 +30,7 @@ public class Rope : MonoBehaviour
     private LineRenderer lineRenderer;
     private List<RopePoint> ropePoints = new List<RopePoint>();
     private float ropeSegmentLength;
+    private bool pullObject = false;
 
     #endregion
 
@@ -95,7 +96,14 @@ public class Rope : MonoBehaviour
     public void AddConstraints()
     {
         ConstrainStartingPosition();
-        ConstrainEndingPosition();
+        if(!pullObject)
+        {
+            ConstrainEndingPosition();
+        }
+        else 
+        {
+            ConstrainObjectPosition();
+        }
         ConstrainDistance();
     }
 
@@ -114,6 +122,11 @@ public class Rope : MonoBehaviour
         RopePoint point = ropePoints[pointCount - 1];
         point.posNow = endObject.position;
         ropePoints[pointCount - 1] = point;
+    }
+
+    public void ConstrainObjectPosition()
+    {
+        endObject.position = ropePoints[pointCount - 1].posNow;
     }
 
     //Makes sure no two points can be any more than a certain distance from each other.
@@ -178,5 +191,15 @@ public class Rope : MonoBehaviour
             this.posNow = pos;
             this.posOld = pos;
         }
+    }
+
+    public void PullObject()
+    {
+        pullObject = true;
+    }
+
+    public void AttachToObject()
+    {
+        pullObject = false;
     }
 }

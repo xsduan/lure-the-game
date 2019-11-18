@@ -28,7 +28,7 @@ public class BoatMovement : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F))
         {
             isFishing = !isFishing;
             pitch = 0.0f;
@@ -38,11 +38,12 @@ public class BoatMovement : MonoBehaviour
         {
             //Movement mode
             MoveBoat();
+            Cursor.lockState = CursorLockMode.None;
         }
         else
         {
             //Fishing mode
-            RotateHeadInFishMode();
+            Cursor.lockState = CursorLockMode.Locked;
         }
     }
 
@@ -75,21 +76,5 @@ public class BoatMovement : MonoBehaviour
 
         //moves the rigidbody along the current view direction (transform.forward) by true acceleration * vertical input * Time.deltatime
         rb.AddForce(transform.forward * moveFrontBack * trueAccelerateSpeed * Time.deltaTime);
-    } 
-
-    private void RotateHeadInFishMode()
-    {
-        //change rotation about the y axis in unity
-        yaw += rotateCameraHorizontalSpeed * Input.GetAxis("Horizontal");
-
-        //change pitch of camera to look up or down
-        float pitchDelta = rotateCameraVerticalSpeed * Input.GetAxis("Vertical");
-        if (Mathf.Abs(pitch - pitchDelta) > 20) //limits the camera to only look 20 degrees up or 20 degrees down from the horizon
-        {
-            pitchDelta = 0.0f;
-        }
-        pitch -= pitchDelta;
-
-        firstPerson.transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
     }
 }
