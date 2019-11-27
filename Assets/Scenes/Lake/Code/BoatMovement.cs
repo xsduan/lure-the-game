@@ -9,10 +9,17 @@ public class BoatMovement : MonoBehaviour
     public Transform firstPerson;
     public Transform thirdPerson;
 
-    public float turnSpeed;
-    public float accelerateSpeed;
+    private float direchange;
+    private float velo;
+    private float dire;
+
+    float maxSpeed = 1.6f;
+    float maxTurn = 1.75f;
+    float turnVelocityEffectThreshold = 1.5f;
+
     public float rotateCameraHorizontalSpeed;
     public float rotateCameraVerticalSpeed;
+    public float speedThreshold;
 
     private Rigidbody rb;
 
@@ -24,6 +31,8 @@ public class BoatMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+
+        rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
     }
 
     void Update()
@@ -44,38 +53,70 @@ public class BoatMovement : MonoBehaviour
             //Fishing mode
             RotateHeadInFishMode();
         }
+
+        
     }
 
-    private void MoveBoat()
-    {
-        //gets the horiztontal and vertical input from the keyboard (arrow keys)
-        float moveLeftRight = Input.GetAxis("Horizontal");
-        float moveFrontBack = Input.GetAxis("Vertical");
+    private void MoveBoat() {
+        rb.velocity = transform.forward * velo;
+        rb.rotation = Quaternion.Euler(transform.up * dire);
+        dire += direchange*Mathf.Abs(direchange)/2;
 
-        float trueTurnSpeed = turnSpeed;
-        float trueAccelerateSpeed = accelerateSpeed;
-
-        //used to fine tune the turn speed while the boat is moving
-        //there will be a larger turning radius while the boat is moving forward, accounted for by decreasing the turn speed
-        if (moveFrontBack != 0)
-        {
-            trueTurnSpeed /= 1.25f;
+        //moving forward & backward-- using GetAxis rather than GetKey for keybinding and cross-platform
+        if(Input.GetAxis("Vertical") > 0) {
+            //don't accelerate if we're turning too sharply or if we're too fast
+            if(velo < speedThreshold && Mathf.Abs(direchange) < turnVelocityEffectThreshold) {
+                velo += 0.05f;
+            }
+        } else if (Input.GetAxis("Vertical") < 0) {
+            if(velo > -1*speedThreshold && Mathf.Abs(direchange) < turnVelocityEffectThreshold) {
+                velo -= 0.05f/1.25f;
+            }        
+        } else {
+            //decrease the magnitude of the velocity by 0.025
+            if(velo > 0.025f) {
+                velo -= 0.025f;
+            } else if(velo < 0.025f) {
+                velo += 0.025f;
+            } else {
+                //if the magnitude is less than 0.05, snap it to 0
+                velo = 0f;
+            }
+        }
+        
+        //turning left
+        if(Input.GetAxis("Horizontal") < 0) {
+            
+            if(Mathf.Abs(direchange) < maxTurn) {
+                direchange -= 0.03f;
+            }
+        } else {
+            if(direchange < 0) {
+                direchange += 0.1f;
+            }
         }
 
-        //used to fine tune the movement speed
-        //boats struggle to go in reverse, so to account for this we lower the true acceleration of the boat when the user tells the boat to go backwards
-        if (moveFrontBack < 0)
-        {
-            trueAccelerateSpeed /= 1.5f;
-            moveLeftRight *= -1;
+        //turning right
+        if(Input.GetAxis("Horizontal") > 0) {
+            if(Mathf.Abs(direchange) < maxTurn) {
+                direchange += 0.03f;
+            }
+        } else {
+            if(direchange > 0f) {
+                direchange -= 0.1f;
+            }
         }
 
-        //changes rotation by 0.0 in the x and z axes, and rotates by modified turn speed * horizontal input * Time.deltatime
-        rb.AddTorque(0f, moveLeftRight * trueTurnSpeed * Time.deltaTime, 0f);
-
-        //moves the rigidbody along the current view direction (transform.forward) by true acceleration * vertical input * Time.deltatime
-        rb.AddForce(transform.forward * moveFrontBack * trueAccelerateSpeed * Time.deltaTime);
-    } 
+        if(Mathf.Abs(direchange) > maxTurn && Mathf.Abs(velo) < maxSpeed) {
+            if(direchange > 0f) {
+                velo += -0.05f;
+            } else if(direchange < 0f) {
+                velo += -0.05f;
+            } else {
+                velo = 0f;
+            }
+        }
+    }
 
     private void RotateHeadInFishMode()
     {
