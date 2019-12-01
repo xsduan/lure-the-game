@@ -1,15 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine;
 
-public class SanityValue : MonoBehaviour
-{
-    public Slider sanitySlider;
+public class SanityValue : MonoBehaviour {
     public float sanity;
-    private void Start()
-    {
+    public Slider sanitySlider;
+
+    private void Start() {
         sanitySlider = GetComponent<Slider>();
-        sanitySlider.value = sanity;// sets slider value to pre-determined amount
+        sanitySlider.value = sanity; // sets slider value to pre-determined amount
     }
 }

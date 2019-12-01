@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class SetMoneyCount : MonoBehaviour
-{
-    public Text money;
+public class SetMoneyCount : MonoBehaviour {
     public int amountOfMoney;
-    private void Start()
-    {
-        money.text = Convert.ToString(amountOfMoney);// set the money value to the value entered
-    }
+    public Text money;
+
+    private void Start() => money.text = Convert.ToString(amountOfMoney); // set the money value to the value entered
 }

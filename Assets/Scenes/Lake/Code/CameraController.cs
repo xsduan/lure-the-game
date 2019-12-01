@@ -1,27 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class CameraController : MonoBehaviour
-{
-    #region Class Variables
-    //public Transform[] viewPoints;
-    public float transformSpeed = 1.0f;
-    public Transform player;
-    //public int lookOffsetCount = 10;
-
-    private Transform currentView;
-    private int currentIndex = 0;
-
-    #endregion
-
-    void Start()
-    {
+public class CameraController : MonoBehaviour {
+    private void Start() {
         //currentView = viewPoints[currentIndex];
     }
 
-    void Update()
-    {
+    private void Update() {
         /*if (Input.GetKeyDown(KeyCode.F))
         {
             //increases the index of where the current camera should be pointing to
@@ -37,8 +21,7 @@ public class CameraController : MonoBehaviour
         }*/
     }
 
-    void LateUpdate()
-    {
+    private void LateUpdate() {
         transform.position = player.TransformPoint(new Vector3(0, 2f, -4.0f));
 
         Vector3 eulerAnglesOfCam = transform.rotation.eulerAngles;
@@ -55,12 +38,11 @@ public class CameraController : MonoBehaviour
         transform.LookAt(player);
     }
 
-    void ChangeView()
-    {
-        while (transform.position != currentView.position)
-        {
+    private void ChangeView() {
+        while (transform.position != currentView.position) {
             //Linear interpolate position between the current position of the camera and the views current position
-            transform.position = Vector3.Lerp(transform.position, currentView.position, Time.deltaTime * transformSpeed);
+            transform.position =
+                Vector3.Lerp(transform.position, currentView.position, Time.deltaTime * transformSpeed);
 
             //Linear interpolation for rotating the camera between the camera's current angle and the angle of the current viewpoint
             Vector3 eulerAnglesOfCam = transform.rotation.eulerAngles;
@@ -76,4 +58,17 @@ public class CameraController : MonoBehaviour
             transform.eulerAngles = currentAngle;
         }
     }
+
+    #region Class Variables
+
+    //public Transform[] viewPoints;
+    public float transformSpeed = 1.0f;
+
+    public Transform player;
+    //public int lookOffsetCount = 10;
+
+    private readonly Transform currentView;
+    private readonly int currentIndex = 0;
+
+    #endregion
 }

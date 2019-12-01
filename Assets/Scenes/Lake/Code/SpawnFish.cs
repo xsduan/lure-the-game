@@ -1,50 +1,33 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class SpawnFish : MonoBehaviour
-{
-    #region Class Variables
-    [SerializeField] GameObject fish;
-    [SerializeField] int population = 5;
-    [SerializeField] float range = 10f;
-    [SerializeField] float depth = 5f;
-    [SerializeField] float despawnDistance = 10f;
-
-    private GameObject[] fishArray;
-    #endregion
-
+public class SpawnFish : MonoBehaviour {
     //TODO: Select fish to be spawned using probabilities instead of serialized
     //      GameObject field.
 
-    void Start () {
-
+    private void Start() {
         //Populate area with fish at start
         fishArray = new GameObject[population];
         for (int i = 0; i < population; i++) {
-
             if (fishArray[i] == null) {
                 fishArray[i] = Spawn();
             }
         }
     }
 
-    void Update () {
-
+    private void Update() {
         //Each fish that is too far away from the player gets depawned and a new fish spawns within range
         for (int i = 0; i < population; i++) {
             GameObject currentFish = fishArray[i];
 
             if (Vector3.Distance(transform.position, currentFish.transform.position) >= despawnDistance) {
-                Object.Destroy(currentFish);
+                Destroy(currentFish);
 
                 fishArray[i] = Spawn();
             }
         }
     }
 
-    GameObject Spawn() { 
-
+    private GameObject Spawn() {
         //Determine random spawn position based on player's position, then spawn new fish
         float randX = transform.position.x + Random.Range(-range, range);
         float randY = transform.position.y - Random.Range(1, depth);
@@ -52,6 +35,18 @@ public class SpawnFish : MonoBehaviour
 
         Vector3 spawnPos = new Vector3(randX, randY, randZ);
 
-        return Object.Instantiate(fish, spawnPos, Quaternion.identity);
+        return Instantiate(fish, spawnPos, Quaternion.identity);
     }
+
+    #region Class Variables
+
+    [SerializeField] private readonly GameObject fish;
+    [SerializeField] private readonly int population = 5;
+    [SerializeField] private readonly float range = 10f;
+    [SerializeField] private readonly float depth = 5f;
+    [SerializeField] private readonly float despawnDistance = 10f;
+
+    private GameObject[] fishArray;
+
+    #endregion
 }
